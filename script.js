@@ -27,27 +27,31 @@ function createExpense(){
 }
 const expenses = [];
 expenses.push(createExpense());
-expenses.push(expense);
-expenses.push(expense2);
 
-//Read
+
 let targetId = expense2.id;
-let foundExpense = expenses.find(function(eachExpense){
-            return (targetId === eachExpense.id);
-});
+//Read
+function read(targetId){
+    let foundExpense = expenses.find(function(eachExpense){
+                return (targetId === eachExpense.id);
+    });
+}
 
 //Update/Edit
-foundExpense.amount = Number(prompt("Enter new amount"));
-console.log(foundExpense);
-console.log(expense2);
+
+function edit(data){
+    foundExpense[data] = prompt(`Enter new ${data}`);
+    return ;
+}
+
  
 //Delete
+function del(targetId){
 const indexToDelete = expenses.findIndex(function(eachExpense){
     return (targetId === eachExpense.id);
 });
-console.log(indexToDelete);
-
 expenses.splice(indexToDelete,1);
-console.log(expenses);
+}
+
 
 
