@@ -1,17 +1,8 @@
-const expense= {
-    id: "adaw",
-    title: "Mongnis",
-    category: "Food",
-    amount: 200,
-    date: "29/8/2026",
-};
-const expense2 = {
-    id: "ajefbibiu",
-    title: "Headphones",
-    category: "Electronics",
-    amount: 200,
-    date: "29/8/2026",
-};
+const expenseForm = document.getElementById("expenseForm");
+expenseForm.addEventListener("submit",()=>{
+    event.preventDefault();
+});
+
 
 //Create
 function createExpense(){
@@ -25,29 +16,27 @@ function createExpense(){
 
     return expense;
 }
+
 const expenses = [];
 expenses.push(createExpense());
+let targetId = expenses[0].id;
 
-
-let targetId = expense2.id;
 //Read
 function read(targetId){
     let foundExpense = expenses.find(function(eachExpense){
                 return (targetId === eachExpense.id);
     });
+    return foundExpense;
 }
-
 //Update/Edit
-
 function edit(data){
-    foundExpense[data] = prompt(`Enter new ${data}`);
-    return ;
+    const editExpense = read(targetId);
+    editExpense[data] = prompt(`Enter new ${data}`);
+    return editExpense;
 }
-
- 
 //Delete
 function del(targetId){
-const indexToDelete = expenses.findIndex(function(eachExpense){
+    const indexToDelete = expenses.findIndex(function(eachExpense){
     return (targetId === eachExpense.id);
 });
 expenses.splice(indexToDelete,1);
