@@ -1,25 +1,31 @@
 const expenseForm = document.getElementById("expenseForm");
-expenseForm.addEventListener("submit",()=>{
+expenseForm.addEventListener("submit",(event)=>{
     event.preventDefault();
+    const expense = createExpense();
+    expenses.push(expense);
 });
 
+const expenseContainer = document.getElementById("expenses");
+const edit = document.getElementById("edit");
+const del = document.getElementById("delete");
+const title = document.getElementById("title");
+const category = document.getElementById("category");
+const amount = document.getElementById("amount");
+const date = document.getElementById("date");
 
 //Create
 function createExpense(){
     const expense = {
     id: crypto.randomUUID(),
-    title: prompt("Enter Title of expense"),
-    category: prompt("Enter Expense Category"),
-    amount: Number(prompt("Enter Amount")),
-    date: prompt("Enter Date")
-    };
-
+    title: title.value,
+    category: category.value,
+    amount:amount.valueAsNumber,
+    date: date.value
+    };   
     return expense;
 }
 
 const expenses = [];
-expenses.push(createExpense());
-let targetId = expenses[0].id;
 
 //Read
 function read(targetId){
