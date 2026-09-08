@@ -5,6 +5,8 @@ const title = document.getElementById("title");
 const category = document.getElementById("category");
 const amount = document.getElementById("amount");
 const date = document.getElementById("date");
+const searchInput = document.getElementById("search");
+const searchByInput = document.getElementById("searchBy");
 
 // DATA 
 const expenses = [];
@@ -22,14 +24,14 @@ expenseForm.addEventListener("submit", (event) => {
 
 const savedExpenses = localStorage.getItem("expenses");
 
-if (savedExpenses){
-const parsedExpenses = JSON.parse(savedExpenses);
+if (savedExpenses) {
+    const parsedExpenses = JSON.parse(savedExpenses);
 
-expenses.push(...parsedExpenses);
+    expenses.push(...parsedExpenses);
 
-parsedExpenses.forEach((expense) => {
-    renderExpense(expense);
-});
+    parsedExpenses.forEach((expense) => {
+        renderExpense(expense);
+    });
 }
 
 // CREATE
@@ -137,7 +139,7 @@ function renderExpense(expense) {
         const targetId = editBtn.dataset.expenseId;
 
         const saveBtn = document.createElement("button");
-        saveBtn.textContent = "Save";   
+        saveBtn.textContent = "Save";
 
         const cancelBtn = document.createElement("button");
         cancelBtn.textContent = "Cancel";
@@ -192,7 +194,7 @@ function renderExpense(expense) {
     delBtn.addEventListener("click", () => {
         del(expense.id);
         expenseDiv.remove();
-         localStorage.setItem("expenses", JSON.stringify(expenses));
+        localStorage.setItem("expenses", JSON.stringify(expenses));
     });
 
     expenseContainer.append(expenseDiv);
@@ -200,17 +202,17 @@ function renderExpense(expense) {
 
 
 //Calculation
-function totalSumCalculation(){
+function totalSumCalculation() {
 
-    const totalSum = expenses.reduce((accumulator,currentExpense)=>{
+    const totalSum = expenses.reduce((accumulator, currentExpense) => {
         return accumulator + currentExpense.amount;
-    },0)
+    }, 0)
     return totalSum;
 }
 
 function categorySumCalculation() {
 
-    const categorySum = expenses.reduce((accumulator, currentExpense)=>{
+    const categorySum = expenses.reduce((accumulator, currentExpense) => {
         return accumulator[currentExpense.category] = (accumulator[currentExpense.category] ?? 0) + currentExpense.amount;
     }, {})
     return categorySum;
@@ -218,17 +220,55 @@ function categorySumCalculation() {
 
 function monthlySumCalculation() {
 
-    const monthlySum = expenses.reduce((accumulator, currentExpense)=>{
-        const month = currentExpense.date.slice(0,7);
+    const monthlySum = expenses.reduce((accumulator, currentExpense) => {
+        const month = currentExpense.date.slice(0, 7);
         return accumulator[month] = accumulator[month] ?? 0 + currentExpense.amount;
     }, {})
     return monthlySum;
 }
 function dailySumCalculation() {
 
-    const dailySum = expenses.reduce((accumulator, currentExpense)=>{
+    const dailySum = expenses.reduce((accumulator, currentExpense) => {
         const day = currentExpense.date;
-        return accumulator[day] = (accumulator[day] ?? 0)+ currentExpense.amount;
+        return accumulator[day] = (accumulator[day] ?? 0) + currentExpense.amount;
     }, {})
     return dailySum;
 }
+
+function searchExpense(searchTerm, searchBy) {
+    const results = expenses.filter((currentExpense) => {
+
+        return currentExpense[searchBy].toLowerCase().includes(searchTerm.toLowerCase());
+
+    })
+    return results;
+}
+
+function renderExpenses(expenseToRender) {
+
+    expenseContainer.replaceChildren();
+
+    expenseToRender.forEach((eachExpense) => {
+        renderExpense(eachExpense)
+    });
+}
+
+searchInput.addEventListener("input", () => {
+
+    const searchTerm = searchInput.value;
+    const searchBy = searchByInput.value;
+
+    const search = searchExpense(searchTerm, searchBy);
+    renderExpenses(search)
+
+})
+
+searchByInput.addEventListener("change", () => {
+
+    const searchTerm = searchInput.value;
+    const searchBy = searchByInput.value;
+
+    const search = searchExpense(searchTerm, searchBy);
+    renderExpenses(search)
+
+})
