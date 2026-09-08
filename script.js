@@ -6,7 +6,7 @@ const category = document.getElementById("category");
 const amount = document.getElementById("amount");
 const date = document.getElementById("date");
 
-// DATA
+// DATA 
 const expenses = [];
 
 // EVENT LISTENERS
@@ -15,7 +15,22 @@ expenseForm.addEventListener("submit", (event) => {
     const expense = createExpense();
     expenses.push(expense);
     renderExpense(expense);
+
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+
 });
+
+const savedExpenses = localStorage.getItem("expenses");
+
+if (savedExpenses){
+const parsedExpenses = JSON.parse(savedExpenses);
+
+expenses.push(...parsedExpenses);
+
+parsedExpenses.forEach((expense) => {
+    renderExpense(expense);
+});
+}
 
 // CREATE
 function createExpense() {
@@ -122,7 +137,7 @@ function renderExpense(expense) {
         const targetId = editBtn.dataset.expenseId;
 
         const saveBtn = document.createElement("button");
-        saveBtn.textContent = "Save";
+        saveBtn.textContent = "Save";   
 
         const cancelBtn = document.createElement("button");
         cancelBtn.textContent = "Cancel";
@@ -139,6 +154,8 @@ function renderExpense(expense) {
             edit(targetId, "category", newCategory);
             edit(targetId, "amount", newAmount);
             edit(targetId, "date", newDate);
+
+            localStorage.setItem("expenses", JSON.stringify(expenses));
 
             expenseDivTitle.textContent = newTitle;
             titleInput.replaceWith(expenseDivTitle);
@@ -175,7 +192,43 @@ function renderExpense(expense) {
     delBtn.addEventListener("click", () => {
         del(expense.id);
         expenseDiv.remove();
+         localStorage.setItem("expenses", JSON.stringify(expenses));
     });
 
     expenseContainer.append(expenseDiv);
+}
+
+
+//Calculation
+function totalSumCalculation(){
+
+    const totalSum = expenses.reduce((accumulator,currentExpense)=>{
+        return accumulator + currentExpense.amount;
+    },0)
+    return totalSum;
+}
+
+function categorySumCalculation() {
+
+    const categorySum = expenses.reduce((accumulator, currentExpense)=>{
+        return accumulator[currentExpense.category] = (accumulator[currentExpense.category] ?? 0) + currentExpense.amount;
+    }, {})
+    return categorySum;
+}
+
+function monthlySumCalculation() {
+
+    const monthlySum = expenses.reduce((accumulator, currentExpense)=>{
+        const month = currentExpense.date.slice(0,7);
+        return accumulator[month] = accumulator[month] ?? 0 + currentExpense.amount;
+    }, {})
+    return monthlySum;
+}
+function dailySumCalculation() {
+
+    const dailySum = expenses.reduce((accumulator, currentExpense)=>{
+        const day = currentExpense.date;
+        return accumulator[day] = (accumulator[day] ?? 0)+ currentExpense.amount;
+    }, {})
+    return dailySum;
 }
