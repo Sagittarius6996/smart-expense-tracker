@@ -1,3 +1,5 @@
+const { startTransition } = require("react");
+
 // DOM ELEMENTS
 const expenseForm = document.getElementById("expenseForm");
 const expenseContainer = document.getElementById("expenses");
@@ -200,7 +202,6 @@ function renderExpense(expense) {
     expenseContainer.append(expenseDiv);
 }
 
-
 //Calculation
 function totalSumCalculation() {
 
@@ -272,3 +273,109 @@ searchByInput.addEventListener("change", () => {
     renderExpenses(search)
 
 })
+
+function filterExpense(filterBy, filterValue) {
+    if (filterBy === "Category") {
+        const filter = expenses.filter((currentExpense) => {
+            return (filterValue === currentExpense.category);
+        });
+        return filter;
+    }
+    else if (filterBy === "Amount") {
+        const filter = expenses.filter((currentExpense) => {
+            return (
+                (!filterValue.min || currentExpense.amount >= filterValue.min) &&
+                (!filterValue.max || currentExpense.amount <= filterValue.max)
+            );
+        });
+        return filter;
+    }
+    else if (filterBy === "Period") {
+        const range = getDateRange(
+            filterValue.periodType,
+            filterValue.customStart,
+            filterValue.customEnd
+        );
+        return period(range.startDate, range.endDate);
+    }
+}
+
+
+function period(startDate, endDate) {
+    const dates = expenses.filter((currentExpense) => {
+        return (
+            startDate <= currentExpense.date &&
+            endDate >= currentExpense.date)
+    })
+    return dates;
+}
+
+function getDateRange(periodType, customStart, customEnd) {
+    const today = new Date();
+
+    if (periodType === "Daily") {
+        return {
+            startDate: formatDate(today),
+            endDate: formatDate(today)
+        };
+    }
+
+    else if (periodType === "Weekly") {
+        const weekStart = new Date(today);
+        weekStart.setDate(today.getDate() - ((today.getDay() + 6) % 7));
+
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekStart.getDate() + 6);
+
+        return {
+            startDate: formatDate(weekStart),
+            endDate: formatDate(weekEnd)
+        };
+    }
+
+    else if (periodType === "Monthly") {
+        const monthStart = new Date(today);
+        monthStart.setDate(1);
+
+        const monthEnd = new Date(today);
+        monthEnd.setMonth(today.getMonth() + 1);
+        monthEnd.setDate(0);
+
+        return {
+            startDate: formatDate(monthStart),
+            endDate: formatDate(monthEnd)
+        };
+    }
+
+    else if (periodType === "Yearly") {
+        const yearStart = new Date(today);
+        yearStart.setMonth(0);
+        yearStart.setDate(1);
+
+        const yearEnd = new Date(today);
+        yearEnd.setFullYear(today.getFullYear() + 1);
+        yearEnd.setMonth(0);
+        yearEnd.setDate(0);
+
+        return {
+            startDate: formatDate(yearStart),
+            endDate: formatDate(yearEnd)
+        };
+    }
+
+    else if (periodType === "Custom") {
+        return {
+            startDate: formatDate(new Date(customStart)),
+            endDate: formatDate(new Date(customEnd))
+        };
+    }
+}
+
+function formatDate(date) {
+    const year = String(date.getFullYear());
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+   return `${year}-${month}-${day}`;
+   
+}
