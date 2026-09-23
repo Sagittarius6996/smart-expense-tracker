@@ -1,5 +1,3 @@
-const { startTransition } = require("react");
-
 // DOM ELEMENTS
 const expenseForm = document.getElementById("expenseForm");
 const expenseContainer = document.getElementById("expenses");
@@ -300,7 +298,6 @@ function filterExpense(filterBy, filterValue) {
     }
 }
 
-
 function period(startDate, endDate) {
     const dates = expenses.filter((currentExpense) => {
         return (
@@ -379,3 +376,28 @@ function formatDate(date) {
    return `${year}-${month}-${day}`;
    
 }
+
+function sortExpense(sortBy, sortOrder){
+    const sortedExpense = [...expenses];
+    sortedExpense.sort((expenseA, expenseB)=>{
+        if(sortBy === "Amount"){            
+            if(sortOrder === "Low to High"){
+                return expenseA.amount-expenseB.amount;                
+            }
+            if(sortOrder=== "High to Low"){
+                return expenseB.amount-expenseA.amount;
+            }
+        }
+
+        else if(sortBy === "Date"){
+            if(sortOrder === "Old to New"){
+                return expenseA.date.localeCompare(expenseB.date);
+            }
+            else{
+                return expenseB.date.localeCompare(expenseA.date);
+            }    
+        }
+        });
+        return sortedExpense;
+}
+
