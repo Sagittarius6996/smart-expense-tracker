@@ -7,9 +7,35 @@ const amount = document.getElementById("amount");
 const date = document.getElementById("date");
 const searchInput = document.getElementById("search");
 const searchByInput = document.getElementById("searchBy");
+const sortBy = document.getElementById("sortBy");
+const sortOrder = document.getElementById("sortOrder");
 
+const totalSpendingDisplay = document.getElementById("totalSpending");
+const monthlySpendingDisplay = document.getElementById("monthlySpending");
+const dashboardCategory = document.getElementById("dashboardCategory");
+const categorySpendingDisplay = document.getElementById("categorySpending");
 // DATA 
 const expenses = [];
+
+function updateDashboard() {
+    const totalSpending = totalSumCalculation();
+    totalSpendingDisplay.textContent = `₹${totalSpending}`;
+
+    const monthlyTotals = monthlySumCalculation();
+    const today = new Date();
+    const currentMonth = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`;
+    const monthlySpending = monthlyTotals[currentMonth] ?? 0;
+    monthlySpendingDisplay.textContent = `₹${monthlySpending}`;
+
+    const categoryTotals = categorySumCalculation();
+    const selectedCategory = dashboardCategory.value;
+    const categorySpending = categoryTotals[selectedCategory] ?? 0;
+    categorySpendingDisplay.textContent = `₹${categorySpending}`;
+}
+
+dashboardCategory.addEventListener("change", () => {
+    updateDashboard();
+});
 
 // EVENT LISTENERS
 expenseForm.addEventListener("submit", (event) => {
@@ -17,9 +43,8 @@ expenseForm.addEventListener("submit", (event) => {
     const expense = createExpense();
     expenses.push(expense);
     renderExpense(expense);
-
     localStorage.setItem("expenses", JSON.stringify(expenses));
-
+    updateDashboard();
 });
 
 const savedExpenses = localStorage.getItem("expenses");
@@ -33,6 +58,7 @@ if (savedExpenses) {
         renderExpense(expense);
     });
 }
+updateDashboard();
 
 // CREATE
 function createExpense() {
@@ -79,6 +105,25 @@ function addCategoryOptions(select, value, text) {
     select.append(option);
 }
 
+
+sortOrder.addEventListener("change",()=>{
+    
+    const sorted = sortExpense(sortBy.value, sortOrder.value);
+    renderExpenses(sorted);
+})
+
+sortBy.addEventListener("change",()=>{
+    sortOrder.replaceChildren();
+    if(sortBy.value === "Amount"){
+        addCategoryOptions(sortOrder, "Low to High", "Low to High");
+        addCategoryOptions(sortOrder, "High to Low", "High to Low");
+    }
+    else if(sortBy.value === "Date"){
+        addCategoryOptions(sortOrder, "Old to New", "Old to New");
+        addCategoryOptions(sortOrder, "New to Old", "New to Old");
+    }
+ })
+    
 // RENDER
 function renderExpense(expense) {
     const expenseDiv = document.createElement("div");
@@ -158,6 +203,7 @@ function renderExpense(expense) {
             edit(targetId, "date", newDate);
 
             localStorage.setItem("expenses", JSON.stringify(expenses));
+            updateDashboard();
 
             expenseDivTitle.textContent = newTitle;
             titleInput.replaceWith(expenseDivTitle);
@@ -182,7 +228,7 @@ function renderExpense(expense) {
             dateInput.replaceWith(expenseDivDate);
 
             saveBtn.replaceWith(editBtn);
-            cancelBtn.remove();
+            cancelBtn.remove(); 
         });
     });
 
@@ -195,8 +241,10 @@ function renderExpense(expense) {
         del(expense.id);
         expenseDiv.remove();
         localStorage.setItem("expenses", JSON.stringify(expenses));
+        updateDashboard();
     });
 
+    
     expenseContainer.append(expenseDiv);
 }
 
@@ -221,7 +269,7 @@ function monthlySumCalculation() {
 
     const monthlySum = expenses.reduce((accumulator, currentExpense) => {
         const month = currentExpense.date.slice(0, 7);
-        return accumulator[month] = accumulator[month] ?? 0 + currentExpense.amount;
+        return accumulator[month] = (accumulator[month] ?? 0) + currentExpense.amount;
     }, {})
     return monthlySum;
 }
@@ -401,3 +449,4 @@ function sortExpense(sortBy, sortOrder){
         return sortedExpense;
 }
 
+ 

@@ -17,6 +17,19 @@
     <option value="category">Category</option>
     <option value="date">Date</option>
     </select>
+
+    <label for="sort">Sort</label>
+    <select name="sortBy" id="sortBy">
+    <option value="Amount">Amount</option>
+    <option value="Date">Date</option>
+
+    </select>
+
+    <select id="sortOrder">
+        <option value="Low to High">Low to High</option>
+        <option value="High to Low">High to Low</option>
+    </select>
+
     <form action="" target="_self" autocomplete="on" name="Expense" id="expenseForm">
         <label for="title">Title</label>
         <input type="text" id="title">
@@ -39,8 +52,38 @@
 
     </form>
 
+    <div class="dashboard">
+    <div class="total-card">
+        <h3>Total Spending</h3>
+        <p id="totalSpending">₹0</p>
+    </div>
+
+    <div class="monthly-card">
+        <h3>This Month</h3>
+        <p id="monthlySpending">₹0</p>
+    </div>
+
+    <div class="category-card">
+        <h3>Category Spending</h3>
+
+        <select id="dashboardCategory">
+            <option value="food">Food</option>
+            <option value="electronics">Electronics</option>
+            <option value="transport">Transport</option>
+            <option value="beauty">Beauty</option>
+            <option value="healthcare">Healthcare</option>
+            <option value="education">Education</option>
+            <option value="gift">Gift</option>
+            <option value="clothing">Clothing</option>
+        </select>
+
+        <p id="categorySpending">₹0</p>
+    </div>
+</div>
+
     <div class="container" id="expenses"></div>
 
+   
     <script src="script.js"></script>
 </body>
 
