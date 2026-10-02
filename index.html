@@ -5,85 +5,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Expense Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <label for="search">Search</label>
-    <input type="search" id="search">
-    
-    <label for="searchBy">Search by</label>
-    <select id="searchBy">
-    <option value="title">Title</option>
-    <option value="category">Category</option>
-    <option value="date">Date</option>
-    </select>
+    <div class="app">
 
-    <label for="sort">Sort</label>
-    <select name="sortBy" id="sortBy">
-    <option value="Amount">Amount</option>
-    <option value="Date">Date</option>
+        <!-- TOP BAR -->
+        <header class="topbar">
+            <div class="brand">
+                <span class="logo"></span>
+                <span>Smart Expense Tracker</span>
+            </div>
 
-    </select>
+            <div class="search-group">
+                <label for="search">Search</label>
+                <input type="search" id="search" placeholder="Search expenses">
+                <label for="searchBy">Search by</label>
+                <select id="searchBy">
+                    <option value="title">Title</option>
+                    <option value="category">Category</option>
+                    <option value="date">Date</option>
+                </select>
+            </div>
+        </header>
 
-    <select id="sortOrder">
-        <option value="Low to High">Low to High</option>
-        <option value="High to Low">High to Low</option>
-    </select>
+        <div class="layout">
 
-    <form action="" target="_self" autocomplete="on" name="Expense" id="expenseForm">
-        <label for="title">Title</label>
-        <input type="text" id="title">
-        <label for="category">Category</label>
-        <select name="categories" id="category">
-            <option value="food">Food</option>
-            <option value="electronics">Electronics</option>
-            <option value="transport">Transport</option>
-            <option value="beauty">Beauty</option>
-            <option value="healthcare">Healthcare</option>
-            <option value="education">Education</option>
-            <option value="gift">Gift</option>
-            <option value="clothing">Clothing</option>
-        </select>
-        <label for="amount">Amount</label>
-        <input type="number" id="amount">
-        <label for="date">Date</label>
-        <input type="date" id="date">
-        <input type="submit" id="addExpense" value="+ Add Expense">
+            <!-- SIDEBAR: ADD EXPENSE -->
+            <aside class="sidebar panel">
+                <h2 class="panel-title">Add Expense</h2>
 
-    </form>
+                <form action="" target="_self" autocomplete="on" name="Expense" id="expenseForm">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" placeholder="e.g. Lunch">
 
-    <div class="dashboard">
-    <div class="total-card">
-        <h3>Total Spending</h3>
-        <p id="totalSpending">₹0</p>
+                    <label for="category">Category</label>
+                    <select name="categories" id="category">
+                        <option value="food">Food</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="transport">Transport</option>
+                        <option value="beauty">Beauty</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="education">Education</option>
+                        <option value="gift">Gift</option>
+                        <option value="clothing">Clothing</option>
+                    </select>
+
+                    <label for="amount">Amount</label>
+                    <input type="number" id="amount" placeholder="0">
+
+                    <label for="date">Date</label>
+                    <input type="date" id="date">
+
+                    <input type="submit" id="addExpense" value="+ Add Expense">
+                </form>
+            </aside>
+
+            <!-- MAIN -->
+            <main class="main">
+                <h1>Expense Overview</h1>
+
+                <div class="dashboard">
+                    <div class="total-card panel">
+                        <h3>Total Spending</h3>
+                        <p id="totalSpending">₹0</p>
+                    </div>
+
+                    <div class="monthly-card panel">
+                        <h3>This Month</h3>
+                        <p id="monthlySpending">₹0</p>
+                    </div>
+
+                    <div class="category-card panel">
+                        <h3>Category Spending</h3>
+                        <select id="dashboardCategory">
+                            <option value="food">Food</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="transport">Transport</option>
+                            <option value="beauty">Beauty</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="education">Education</option>
+                            <option value="gift">Gift</option>
+                            <option value="clothing">Clothing</option>
+                        </select>
+                        <p id="categorySpending">₹0</p>
+                    </div>
+                </div>
+
+                <section class="list-panel panel">
+                    <div class="list-head">
+                        <h2 class="panel-title">All Expenses</h2>
+                        <div class="sort-group">
+                            <label for="sortBy">Sort</label>
+                            <select name="sortBy" id="sortBy">
+                                <option value="Amount">Amount</option>
+                                <option value="Date">Date</option>
+                            </select>
+                            <select id="sortOrder">
+                                <option value="Low to High">Low to High</option>
+                                <option value="High to Low">High to Low</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="container" id="expenses"></div>
+                </section>
+            </main>
+        </div>
     </div>
 
-    <div class="monthly-card">
-        <h3>This Month</h3>
-        <p id="monthlySpending">₹0</p>
-    </div>
-
-    <div class="category-card">
-        <h3>Category Spending</h3>
-
-        <select id="dashboardCategory">
-            <option value="food">Food</option>
-            <option value="electronics">Electronics</option>
-            <option value="transport">Transport</option>
-            <option value="beauty">Beauty</option>
-            <option value="healthcare">Healthcare</option>
-            <option value="education">Education</option>
-            <option value="gift">Gift</option>
-            <option value="clothing">Clothing</option>
-        </select>
-
-        <p id="categorySpending">₹0</p>
-    </div>
-</div>
-
-    <div class="container" id="expenses"></div>
-
-   
     <script src="script.js"></script>
 </body>
 

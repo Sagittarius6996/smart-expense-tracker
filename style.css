@@ -1,0 +1,325 @@
+/* ===== TOKENS ===== */
+:root {
+    --bg: #05070d;
+    --glass: rgba(255, 255, 255, 0.04);
+    --glass-strong: rgba(255, 255, 255, 0.07);
+    --border: rgba(255, 255, 255, 0.09);
+    --text: #e9edf6;
+    --muted: #7f8aa3;
+    --accent: #8fa6e0;
+    --accent-soft: rgba(143, 166, 224, 0.16);
+    --danger: #e5646a;
+    --radius: 16px;
+    --radius-sm: 10px;
+}
+
+* { box-sizing: border-box; margin: 0; }
+
+body {
+    min-height: 100vh;
+    padding: 40px 24px;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background:
+        radial-gradient(ellipse 60% 45% at 65% 25%, rgba(46, 90, 200, 0.45), transparent 70%),
+        radial-gradient(ellipse 50% 40% at 75% 90%, rgba(80, 70, 190, 0.35), transparent 70%),
+        var(--bg);
+    background-attachment: fixed;
+}
+
+/* ===== APP FRAME ===== */
+.app {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    background: rgba(10, 13, 22, 0.72);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+}
+
+.panel {
+    background: linear-gradient(160deg, var(--glass-strong), var(--glass));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+}
+
+.panel-title {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* ===== TOP BAR ===== */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 10px 16px;
+    margin-bottom: 14px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--glass);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.logo {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #e9edf6, #5b6785);
+}
+
+.search-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* labels inside the top bar / sort group are visually hidden but still read by screen readers */
+.search-group label,
+.sort-group label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+/* ===== LAYOUT ===== */
+.layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 14px;
+    align-items: start;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.main h1 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+/* ===== FORM CONTROLS ===== */
+input, select, button {
+    font: inherit;
+    color: var(--text);
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="search"],
+select {
+    width: 100%;
+    padding: 9px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    outline: none;
+    color-scheme: dark;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+input::placeholder { color: var(--muted); }
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+select option { background: #10141f; color: var(--text); }
+
+button {
+    padding: 7px 14px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    outline: none;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+button:hover { background: var(--glass-strong); border-color: rgba(255, 255, 255, 0.2); }
+
+/* ===== SIDEBAR FORM ===== */
+#expenseForm {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 14px;
+}
+
+#expenseForm label {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--muted);
+}
+
+#addExpense {
+    margin-top: 18px;
+    padding: 11px;
+    font-weight: 500;
+    color: #0a0d16;
+    background: var(--accent);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: filter 0.15s;
+}
+
+#addExpense:hover { filter: brightness(1.12); }
+#addExpense:focus-visible { box-shadow: 0 0 0 3px var(--accent-soft); outline: none; }
+
+/* ===== DASHBOARD CARDS ===== */
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.dashboard .panel {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 112px;
+}
+
+.dashboard h3 {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+}
+
+.dashboard p {
+    margin-top: auto;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.dashboard select {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+/* ===== LIST PANEL ===== */
+.list-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.sort-group {
+    display: flex;
+    gap: 8px;
+}
+
+.sort-group select {
+    width: auto;
+    padding: 6px 10px;
+    font-size: 13px;
+}
+
+/* ===== EXPENSE ROWS (rendered by script.js) ===== */
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.container:empty::before {
+    content: "No expenses yet. Add your first one from the panel on the left.";
+    padding: 28px 0;
+    text-align: center;
+    color: var(--muted);
+}
+
+.container > div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.container > div:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(143, 166, 224, 0.35);
+}
+
+.container .title { flex: 1.6; font-weight: 500; min-width: 0; overflow-wrap: anywhere; }
+
+.container .category {
+    flex: 0 0 auto;
+    min-width: 92px;
+    padding: 3px 10px;
+    text-align: center;
+    font-size: 12px;
+    text-transform: capitalize;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-radius: 999px;
+}
+
+.container .amount { flex: 1; font-weight: 600; }
+.container .amount::before { content: "₹"; color: var(--muted); font-weight: 400; margin-right: 2px; }
+
+.container .date { flex: 1; color: var(--muted); }
+
+/* inputs shown while editing a row */
+.container > div input,
+.container > div select {
+    flex: 1;
+    min-width: 0;
+    padding: 6px 8px;
+}
+
+.container > div button { padding: 5px 12px; font-size: 13px; }
+
+/* Delete button is always the last button in a row */
+.container > div button:last-child:hover {
+    color: var(--danger);
+    border-color: rgba(229, 100, 106, 0.5);
+    background: rgba(229, 100, 106, 0.1);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    .dashboard { grid-template-columns: 1fr; }
+    .container > div { flex-wrap: wrap; }
+}
+
+@media (max-width: 520px) {
+    body { padding: 16px 10px; }
+    .search-group { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+}
