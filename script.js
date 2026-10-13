@@ -254,24 +254,26 @@ function totalSumCalculation() {
     const totalSum = expenses.reduce((accumulator, currentExpense) => {
         return accumulator + currentExpense.amount;
     }, 0)
-    return accumulator;
+    return totalSum;
 }
 
 function categorySumCalculation() {
 
     const categorySum = expenses.reduce((accumulator, currentExpense) => {
-        return accumulator[currentExpense.category] = (accumulator[currentExpense.category] ?? 0) + currentExpense.amount;
+        accumulator[currentExpense.category] = (accumulator[currentExpense.category] ?? 0) + currentExpense.amount;
+        return accumulator;
     }, {})
-    return accumulator;
+    return categorySum;
 }
 
 function monthlySumCalculation() {
 
     const monthlySum = expenses.reduce((accumulator, currentExpense) => {
         const month = currentExpense.date.slice(0, 7);
-        return accumulator[month] = (accumulator[month] ?? 0) + currentExpense.amount;
+        accumulator[month] = (accumulator[month] ?? 0) + currentExpense.amount;
+        return accumulator;
     }, {})
-    return accumulator;
+    return monthlySum;
 }
 function dailySumCalculation() {
 
