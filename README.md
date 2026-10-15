@@ -2,6 +2,10 @@
 
 A simple expense tracking web application built with HTML, CSS, and JavaScript. It allows users to manage expenses, view spending summaries, and organize their records through search and sorting.
 
+## Live Demo
+
+[Open Smart Expense Tracker](https://sagittarius6996.github.io/smart-expense-tracker/)
+
 ## Features
 
 - **Expense Management:** Add, view, edit, and delete expenses.
@@ -23,7 +27,7 @@ A simple expense tracking web application built with HTML, CSS, and JavaScript. 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/YOUR-USERNAME/smart-expense-tracker.git
+   git clone https://github.com/sagittarius6996/smart-expense-tracker.git
    ```
 
 2. Navigate to the project directory:
@@ -47,17 +51,14 @@ smart-expense-tracker/
 
 ## What I Learned
 
-This project helped me practice JavaScript concepts through a practical application, including DOM manipulation, event handling, arrays and objects, CRUD operations, array methods such as `map`, `filter`, `reduce`, and `sort`, and data persistence with localStorage.
+This project helped me practice JavaScript concepts through a practical application, including DOM manipulation, event handling, arrays and objects, CRUD operations, array methods such as `filter`, `reduce`, and `sort`, and data persistence with localStorage.
 
 It also gave me experience building a responsive interface and connecting user interactions with dynamically updated data.
 
 ## Future Improvements
 
-- Add expense filtering by category, amount, and date range.
+- Add filtering controls for categories, amounts, and date ranges.
+- Allow users to select a month to view previous monthly spending.
 - Improve input validation and error handling.
-- Add visual charts to represent spending patterns.
-- Refactor repeated UI logic to make the code easier to maintain.
-
-## License
-
-This project is open for learning and personal use. Add a license file if you intend to distribute it under specific terms.
+- Add charts to visualize spending patterns.
+- Refactor repeated code to improve maintainability.
